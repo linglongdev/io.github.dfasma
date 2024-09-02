@@ -1,0 +1,25 @@
+From 95838e01a6c5f33ac752d4082e415e4194a84e00 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Fri, 16 Aug 2024 16:52:23 +0800
+Subject: [PATCH] install
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4d0496b..50a385c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,7 +11,7 @@ if (POLICY CMP0042)
+ endif ()
+ 
+ option (BUILD_SHARED_LIBS "Build shared libraries" ON)
+-option (BUILD_TESTS "Build tests" ON)
++option (BUILD_TESTS "Build tests" OFF)
+ 
+ option (ENABLE_OPENMP "Use OpenMP for multithreading" OFF)
+ option (ENABLE_THREADS "Use pthread for multithreading" OFF)
+-- 
+2.43.4
+

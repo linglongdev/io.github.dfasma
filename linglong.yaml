@@ -1,0 +1,54 @@
+version: "1"
+
+package:
+  id: io.github.dfasma
+  name: dfasma
+  version: 1.5.22.1
+  kind: app
+  description: |
+     an open-source software used to compare audio files in time and frequency
+
+command:
+  - /opt/apps/io.github.dfasma/files/bin/dfasma
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/gillesdegottex/dfasma.git
+    version: master
+    commit: a99d010446c52aa80c063a12a56d19375f0b5c8d
+  - kind: git
+    url: https://github.com/FFTW/fftw3.git
+    version: master
+    commit: 187045ea647ba19c55db5f503d11bd811ee6b56e
+  - kind: git
+    url: https://github.com/libsndfile/libsndfile.git
+    version: master
+    commit: 58c05b87162264200b1aa7790be260fd74c9deee
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/f/fftw3/libfftw3-dev_3.3.8-2_amd64.deb
+    digest: 4f38dfd0e6ef4e4098ccd4c0f569c08b68a2c8a8263e53eb9c87713d6f47d731
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+  cd /project/linglong/sources/libsndfile.git
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install -j$(nproc --all)
+  cd /project/linglong/sources/fftw3.git
+  git apply ../../../0001-install.patch
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install -j$(nproc --all)
+  cd /project/linglong/sources/dfasma.git
+  git apply ../../../0002-install.patch
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
+
+ 
